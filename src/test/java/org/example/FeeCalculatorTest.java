@@ -2,6 +2,8 @@ package org.example;
 
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static org.junit.jupiter.api.Assertions.*;
 
 class FeeCalculatorTest {
@@ -40,5 +42,23 @@ class FeeCalculatorTest {
         double fee = FeeCalculator.calculateFee(visitor, TicketType.FULL_DAY);
 
         assertEquals(50.0, fee);
+    }
+
+    @Test
+    void calucalateFeeAdultInvalidTicketThrowsException(){
+        Visitor visitor = new Visitor(18);
+
+        Throwable thrown = catchThrowable(() -> FeeCalculator.calculateFee(visitor, TicketType.WEEK));
+
+        assertThat(thrown).isInstanceOf(RuntimeException.class).hasMessage("Ticket type not supported.");
+    }
+
+    @Test
+    void calucalateFeeChildrenInvalidTicketThrowsException(){
+        Visitor visitor = new Visitor(14);
+
+        Throwable thrown = catchThrowable(() -> FeeCalculator.calculateFee(visitor, TicketType.WEEK));
+
+        assertThat(thrown).isInstanceOf(RuntimeException.class).hasMessage("Ticket type not supported.");
     }
 }

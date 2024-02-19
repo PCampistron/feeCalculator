@@ -1,7 +1,7 @@
 package org.example;
 
 public class AdultFeeStrategy implements FeeStrategy {
-    final double ADULT_PRICE_BASE = 100;
+    final double ADULT_PRICE_BASE = 100.0;
 
     @Override
     public double calculateFee(TicketType ticketType) {
@@ -10,6 +10,6 @@ public class AdultFeeStrategy implements FeeStrategy {
         } else if (TicketType.FULL_DAY == ticketType) {
             return ADULT_PRICE_BASE * 1.2;
         }
-        return 0.0;
+        throw new RuntimeException("Ticket type not supported.");
     }
 }
